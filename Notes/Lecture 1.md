@@ -1,5 +1,3 @@
-Sure, I can help expand and simplify these notes on operating systems. Here's a more detailed and beginner-friendly version, using the same formatting:
-
 ### LEARNING GOALS
 
 We'll explore key concepts in operating systems:
@@ -114,5 +112,3 @@ Other Goals:
 - Energy Efficiency.
 - Security.
 - Mobility for IoT and embedded devices.
-
-These notes provide a comprehensive and beginner-friendly overview of fundamental OS concepts and structures.
