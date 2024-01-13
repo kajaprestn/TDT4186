@@ -89,10 +89,35 @@ OSs are divided into layers. The core is the **Kernel**, handling secure hardwar
 
 #### OS Structures
 
-- **Simple Structure:** No distinction between OS and programs. Pros: Efficiency. Cons: Security risks.
-- **Monolithic Kernel:** Entire OS in kernel space. Pros: Good isolation. Cons: Less flexibility.
-- **Microkernel:** Decouples some modules, keeping them in user space. Pros: Reliability. Cons: Complexity.
-- **Hybrid Kernel:** Mix of monolithic and microkernel. Balances pros and cons.
+- **Simple Structure:**
+  - No distinction between OS and programs.
+  - **Example OS:** MS-DOS (Microsoft Disk Operating System).
+  - **Pros:** Efficient in terms of performance because there's minimal switching between different modes.
+  - **Cons:** High security risks as applications can directly interact with hardware and other applications, leading to potential system crashes or security breaches.
+
+- **Monolithic Kernel:**
+  - Entire OS in kernel space.
+  - **Example OSs:** 
+    - Linux: Known for its use in servers and desktops.
+    - UNIX: The precursor to many modern operating systems, including Linux.
+  - **Pros:** Offers good isolation and security as the kernel has complete control over system resources.
+  - **Cons:** Can be less flexible because any changes or updates to the system may require modifying the kernel.
+
+- **Microkernel:**
+  - Decouples some modules, keeping them in user space.
+  - **Example OSs:** 
+    - Minix: Designed for educational purposes, demonstrating microkernel architecture.
+    - QNX: Used in various embedded systems.
+  - **Pros:** More reliable and secure as essential parts of the OS are isolated from system crashes and bugs in other components.
+  - **Cons:** Can be more complex to develop and may suffer from performance overhead due to more inter-process communication.
+
+- **Hybrid Kernel:**
+  - Mix of monolithic and microkernel.
+  - **Example OSs:**
+    - Windows NT (and subsequent versions like Windows 10): Combines aspects of both monolithic and microkernel designs.
+    - Apple's macOS: Derives from both monolithic (UNIX) and microkernel (Mach) architectures.
+  - **Pros:** Balances the advantages of both monolithic and microkernel designs, offering better performance than pure microkernels and more flexibility and modularity than monolithic kernels.
+  - **Cons:** Can inherit some of the disadvantages of both architectures and can be complex in terms of design and maintenance.
 
 ## GOALS OF OS
 
