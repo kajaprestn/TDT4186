@@ -32,35 +32,35 @@
 
     | **Job** | **Arrival time (_s_)** | **Run time (_s_)** |
     |-----|--------------------|----------------|
-    | $A$ | $0$ | $10$ |
-    | $B$ | $0$ | $10$ |
-    | $C$ | $0$ | $10$ |
+    | $A$| $0$| $10$|
+    | $B$| $0$| $10$|
+    | $C$| $0$| $10$|
 
     A first, B slightly later and then C
 
 - How about FIFO in terms of **turnaround**?
     | **Job** | **Arrival time (_s_)** | **Run time (_s_)** | **Finishing time (_s_)** |
     |-----|--------------------|----------------| ---------------|
-    | $A$ | $0$ | $10$ | $10$ |
-    | $B$ | $0^{+}$ | $10$ | $20$ |
-    | $C$ | $0^{++} $| $10$ | $30$ |
+    | $A$| $0$| $10$| $10$|
+    | $B$| $0^{+}$| $10$| $20$|
+    | $C$| $0^{++} $| $10$| $30$|
 
     > $T_{t} = T_{c} - T_{a}$
 
-    > $ A: 10 - 0 = 10$
+    > $A: 10 - 0 = 10$
 
-    > $ B: 20 - 0 = 20$
+    > $B: 20 - 0 = 20$
 
-    > $ C: 30 - 0 = 30$
+    > $C: 30 - 0 = 30$
 
     > $\text{Average turnaround time} = \frac{10 + 20 + 30}{3} = 20$
 
 
     | **Job** | **Arrival time (_s_)** | **Run time (_s_)** |
     |-----|--------------------|----------------|
-    | $A$ | $0$ | $70$ |
-    | $B$ | $0$ | $10$ |
-    | $C$ | $0$ | $10$ |
+    | $A$| $0$| $70$|
+    | $B$| $0$| $10$|
+    | $C$| $0$| $10$|
 
     Gives an average turnaround time of 80. How can we minimize this?
     
@@ -86,15 +86,15 @@ This way of doing things is called Shortest Job First (SJF)
 
     | **Job** | **Arrival time (_s_)** | **Run time (_s_)** | **Finishing time (_s_)** |
     |-----|--------------------|----------------| ---------------|
-    | $A$ | $0$ | $10$ | $90$ |
-    | $B$ | $0^{+}$ | $10$ | $10$ |
-    | $C$ | $0^{++} $| $10$ | $20$ |
+    | $A$| $0$| $10$| $90$|
+    | $B$| $0^{+}$| $10$| $10$|
+    | $C$| $0^{++} $| $10$| $20$|
 
 > Remember the assumptions: 
-    >- All jobs arrive at the same time
-    >- All jobs only use the CPU (no I/O)
-    >- Run-time of each job is known
-    >- Once started, each job runs to completion (Preemption)
+> - All jobs arrive at the same time
+> - All jobs only use the CPU (no I/O)
+> - Run-time of each job is known
+> - Once started, each job runs to completion (Preemption)
 
 If the 4 assumptions hold, SJF is an optimal scheduling algorithm in therms of average waiting time, but if B and C arrive after A we'll still get an AT-time of 80 s. Because even though B and C are ready to run at a certain time, it cannot start unless A is finished. The solution is to remove the assumtion of preemption
 
@@ -110,9 +110,9 @@ If the 4 assumptions hold, SJF is an optimal scheduling algorithm in therms of a
 
     | **Job** | **Arrival time (_s_)** | **Run time (_s_)** | **Finishing time (_s_)** |
     |-----|--------------------|----------------| ---------------|
-    | $A$ | $0$ | $70$ | $90$ |
-    | $B$ | $10$ | $10$ | 20$ |
-    | $C$ | $20$| $10$ | $30$ |
+    | $A$| $0$| $70$| $90$|
+    | $B$| $10$| $10$| 20$|
+    | $C$| $20$| $10$| $30$|
     > $\text{Average turnaround time} = \frac{90 + 20 + 30}{3} = 47$
 
 - STCF may cause starvation (indefinite blocking)
@@ -123,12 +123,12 @@ If the 4 assumptions hold, SJF is an optimal scheduling algorithm in therms of a
 
     | **Job** | **Arrival time (_s_)** | **Run time (_s_)** |
     |-----|--------------------|----------------|
-    | $A$ | $0$ | $30$ |
-    | $B$ | $0^{+}$ | $20$ |
-    | $C$ | $0^{++} $| $10$ |
+    | $A$| $0$| $30$|
+    | $B$| $0^{+}$| $20$|
+    | $C$| $0^{++} $| $10$|
 
-    - FIFO : $ R = \frac{0 + 30 + 50}{3} = 26.7$
-    - SJF : $ R = \frac{0 + 10 + 30}{3} = 13.3$
+    - FIFO : $R = \frac{0 + 30 + 50}{3} = 26.7$
+    - SJF : $R = \frac{0 + 10 + 30}{3} = 13.3$
 
 A better scheduler for response time?
 
@@ -142,9 +142,9 @@ A better scheduler for response time?
 
     | **Job** | **Arrival time (_s_)** | **Run time (_s_)** |
     |-----|--------------------|----------------|
-    | $A$ | $0$ | $30$ |
-    | $B$ | $0^{+}$ | $20$ |
-    | $C$ | $0^{++} $| $10$ |
+    | $A$| $0$| $30$|
+    | $B$| $0^{+}$| $20$|
+    | $C$| $0^{++} $| $10$|
 
 - Assume that time slice is 5s
     $R = \frac{0 + 5 + 10}{3} = 5$
@@ -152,16 +152,16 @@ A better scheduler for response time?
 
     | **Job** | **Arrival time (_s_)** | **Run time (_s_)** | **Time quantum** |
     |-----|--------------------|----------------| ---------------|
-    | $A$ | $0$ | $5$ | $1$ |
-    | $B$ | $0$ | $5$ |  |
-    | $C$ | $0$ | $5$ |  |
+    | $A$| $0$| $5$| $1$|
+    | $B$| $0$| $5$|  |
+    | $C$| $0$| $5$|  |
 
-    - RR: $ R = \frac{0 + 1 + 2}{3} = 1$
+    - RR: $R = \frac{0 + 1 + 2}{3} = 1$
 - RR  is a good scheduler in terms of response time...
 - but poor in terms of turnaround time
-    - FIFO: $ T = \frac{5 + 10 + 15}{3} = 10$
-    - SJF: $ T = \frac{5 + 10 + 15}{3} = 10$
-    - RR: $ T = \frac{13 + 14 + 15}{3} = 14$
+    - FIFO: $T = \frac{5 + 10 + 15}{3} = 10$
+    - SJF: $T = \frac{5 + 10 + 15}{3} = 10$
+    - RR: $T = \frac{13 + 14 + 15}{3} = 14$
 - The selection time of time slice size should be carefully considered (Usually 10-100 milliseconds)
     - Switching between processes come at some overhead, i.e., contect-switch-time
     - Turnaround time depends on the size of time slice. 
