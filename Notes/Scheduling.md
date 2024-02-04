@@ -222,16 +222,182 @@ A better scheduler for response time?
         - Save the old context and load the new context
      
 #### INCORPORATING I/O
-We remove another one of the assumtions, "All jobs only use the CPU (no I/O)". 
-- Every program needs I/O
-- Process execution consists of
-  - CPU execution (CPU burst)
-  - I/O wait (I/O burst)
-- Treating each CPU burst as a sub-job
-  - Schedule a CPU burst
-  - Initialize the subsequent I/O burst, when the CPU burst completes
-  - Switch to another process
+
+- In realistic scenarios, jobs require both CPU processing and I/O operations. This breaks the assumption that jobs only use the CPU.
+- A job's execution alternates between CPU bursts (active computation) and I/O bursts (waiting for I/O operations).
+- CPU scheduling can be thought of as managing these CPU bursts as sub-jobs:
+  - When a CPU burst completes, initiate the corresponding I/O burst.
+  - While a process waits for I/O, the CPU can switch to another process.
+
 >Run-time of each job is known
+<p align="center">
+  <img src="./Pictures/IO_resources.png" alt="Modeller" width="500"/>
+</p>
+
+#### PRIORITY-BASED SCHEDULING
+No we remove the last assumption
+- Moving away from simpler models, priority-based scheduling introduces a priority level for each process, influencing the scheduling order.
+- Processes are selected based on priority, with various algorithms available for preemptive or non-preemptive execution.
+- Priorities can be assigned through different methods and often, a lower numerical value represents a higher priority.
+- One challenge with priority-based scheduling is the potential for starvation, where lower priority processes may never execute if higher priority processes continuously arrive.
+
+    | **Process** | **Burst time** | **Priority** |
+    |-----|--------------------|----------------|
+    | $P_{1}$| $10$| $3$|
+    | $P_{2}$| $1$| $1$|
+    | $P_{3}$| $2$| $4$|
+    | $P_{4}$| $1$| $5$|
+    | $P_{5}$| $5$| $2$|
+
+    In this case we don't care about the burst time, priority is the only thing that matters.
+
+
+
+#### MULTI-LEVEL FEEDBACK QUEUE (MLFQ)
+
+- **SJF and STCF Trade-offs**: Shortest Job First (SJF) and Shortest Time to Completion First (STCF) prioritize jobs with the shortest duration for execution, leading to excellent turnaround times. However, this approach often results in poor response times for longer jobs.
+  
+- **RR for Responsiveness**: Round Robin (RR) scheduling enhances response time by rotating execution among processes in a time-shared manner, but it can extend the turnaround time, especially for processes that are ready to run.
+
+- **MLFQ's Approach**: MLFQ is engineered to strike a balance between minimizing turnaround time and maximizing response time efficiency. It achieves this by dynamically adjusting process priorities based on their execution history and behavior.
+
+- **Combining Strategies**: MLFQ integrates the concepts of priority-based scheduling with the fairness of Round Robin (RR). It manages multiple queues, each representing a different priority level, with processes within the same queue being treated with equal priority.
+
+- **Operational Rules**:
+  - **Rule 1**: A process with higher priority (lower numerical value) preempts one with lower priority.
+  - **Rule 2**: Processes with equal priority are scheduled using RR.
+  - **Rule 3**: Newly introduced jobs are placed at the highest priority level.
+  - **Rule 4a**: Consuming a full time slice results in a priority demotion (moving to a lower-priority queue).
+  - **Rule 4b**: Releasing the CPU voluntarily (before using up the time slice) retains the process's current priority level.
+
+<p align="center">
+  <img src="./Pictures/MLFQpp.png" alt="Modeller" width="500"/>
+</p>
+
+- **Dynamic Priority Adjustment**: Unlike fixed-priority scheduling, MLFQ adjusts a job's priority based on its observed behavior—prioritizing interactive jobs that often wait for I/O operations, and computation-heavy jobs that utilize full CPU bursts.
+
+
+**EXAMPLE WITH ONE JOB**
+- Rule 3 and 4a (starts at the highest, and lower if not finished)
+- A long running job; Time slice is 10ms.
+
+<p align="center">
+  <img src="./Pictures/MLFQeks.png" alt="Modeller" width="500"/>
+</p>
+
+
+**EXAMPLE WITH TWO JOBS**
+- **Job A:** A long-running CPU-intensive job
+- **Job B:** A short-running interactive job (20ms runtime), arrives at 100ms. 
+<p align="center">
+  <img src="./Pictures/MLFQeks2.png" alt="Modeller" width="500"/>
+</p>
+
+
+**EXAMPLE WITH ONE JOB**
+- Rule 4b (stays at the same priority)
+- **Job A:** A long-running CPU-intensive job
+- **Job B:** An interactive job that only needs CPU for 5 ms before I/O.
+<p align="center">
+  <img src="./Pictures/MLFQeks3.png" alt="Modeller" width="500"/>
+</p>
+
+
+-  What are the problems of the durrent MLFQ?
+    - Starvation: higher priority jobs always occupy the CPU -> lower priority jobs are stuck in the queue. To prevent this, we implement a new rule; 
+        >**Rule 5**: After some time S, move all jobs in the system to the topmost queue. This can help against starvation.  
+    - Game the scheduler: Task gives up CPU just before the end of a time slice
+        - Some sneaky tricks to get more resource share
+        > Combine **Rule 4a** and **Rule 4b** into **Rule 4::** Once a job uses up its time allotment at a given level (regardless of how many times it has given up the CPU), its priority is reduced(i.e., it moves down one queue).
+    - Changed behavior over time
+
+- The refined set of MLFQ rules:
+    - Rule 1: If Priority(A) > Priority(B), A runs (B doesn’t).
+    - Rule 2: If Priority(A) = Priority(B), A & B run in RR.
+    - Rule 3: When a job enters the system, it is placed at the highest priority.
+    - Rule 4: Once a job uses up its time allotment at a given level (regardless of how many times it has given up the CPU), its priority is reduced (i.e., it moves down on queue).
+    - Rule 5: After some time period S, move all the jobs in the system to the topmost queue.
+
+- Beauty of MLFQ
+    - It does not require prior knowledge on the CPU usage of a process.
+
+- MLFQ scheduler is defined by the following parameters
+    - Number of queues
+    - Time slice of each queue
+    - Boosting period
+    - Schedueling algorithms for each queue
+    - etc.
+- High priority queue: 
+    - Interactive processes
+    - Response time
+- Low priority queue:
+    - Batch processes (CPU-intensive)
+    - Turnaround time
+
+
+#### FAIRNESS
+- To guarantee the fair usage of CPU (CPU time)
+<p align="center">
+  <img src="./Pictures/Fairness.png" alt="Modeller" width="500"/>
+</p>
+- If RR, A gets 75% and B only getrs 25% 
+- If B is higher priority, A may get starved
+
+#### PROPORTIONAL SHARE SCHEDULING
+- Fair-share scheduler
+    - Guarantee that each job obtains a *certain percentage* of CPU time.
+    - Not optimized for turnaround or response time
+- Lottery scheduling
+    - Based on the concept of tickets
+        - The percentage of tickets denotes the share of a resource for a process
+    - There are two processes, A and B, and 100 tickets in total.
+        - Process A har 75 tickets -> receives 75% of the CPU
+        - Process B har 25 tickets -> receives 25% of the CPU
+- A probabilistic way to implement lottery scheduling
+    - Time slice (like in RR)
+    - Scheduler knows how many tickets exist
+    - Scheduler picks a winning ticket from the ticket pool for each time slice
+
+#### TICKET MECHANISMS
+- Ticket currency: Allocate tickets among the tasks of a user or group
+    - Global currency
+    - Ticket currency
+- Ticket transfer: Temporarily hand off tickets to another task
+    - Boost the executionf of the task that receives tickets
+- Ticket inflation: Dynamically change the number of tickets
+
+#### COMPLETELY FAIR SCHEDULING (CFS)
+- The current CPU scheduler in Linux
+- Choose the process with the lowest execution time: *vruntime*
+- Run the process for a time slice
+- Non-fixed time slice:
+    - CFS alligns time slice based on sched_latency and the number of processes
+- Priority
+    - Enables control over priority by using nice value, user-space value.
+    - -20 - 19, default 0, positive lower priority, negative higher priority
+- Efficient data structure
+    - Use red-black tree for efficient search, insertion and deletion of a process.
+- Virtual runtime (vruntime)
+    - Denotes how long the process has executed.
+    - Per-process variable
+    - Increases in proportion with physical (real) time when it runs.
+    - CFS pick the process with the lowest vruntime to run next
+- sched_latency
+    - Used to determine the time slice
+    - A typical value is 48ms
+    - process's time slice = sched_latency / #processes
+        - N = 4, time slice = 12 ms
+        - N = 2, time slice = 24 ms
+        - What if N = inf -> Set the minimum time slice value to 6ms
+- CFS deploys a red-black tree
+    - Balanced binary search tree
+    - Ordered by vruntime as key
+    - Complexity:
+        - insertion, deletion, update -> $O(n \log {}n)$ 
+        - find min -> $O(1)$ 
+
+
+    
 
 #### SUMMARY
 - There are different metrics to evaluate the performance of scheduling algorithms
