@@ -220,6 +220,18 @@ A better scheduler for response time?
 - Context-switch
     - **swtch(struct contect \*old, struct contect \*new)**
         - Save the old context and load the new context
+     
+#### INCORPORATING I/O
+We remove another one of the assumtions, "All jobs only use the CPU (no I/O)". 
+- Every program needs I/O
+- Process execution consists of
+  - CPU execution (CPU burst)
+  - I/O wait (I/O burst)
+- Treating each CPU burst as a sub-job
+  - Schedule a CPU burst
+  - Initialize the subsequent I/O burst, when the CPU burst completes
+  - Switch to another process
+>Run-time of each job is known
 
 #### SUMMARY
 - There are different metrics to evaluate the performance of scheduling algorithms
