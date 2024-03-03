@@ -26,7 +26,7 @@
 - The page size is 16 bytes
 
 <p align="center">
-  <img src="./Pictures/Paging1.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging1.png" alt="Modeller" width="500"/>
 </p>
 
 - Flexibility: Supporting the abstraction of address space effectively
@@ -61,7 +61,7 @@
     - A per-process data structure
 
 <p align="center">
-  <img src="./Pictures/Paging2.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging2.png" alt="Modeller" width="500"/>
 </p>
 
 - The page table data structure is kept in main memory
@@ -71,7 +71,7 @@
     - Translation information
     - Other information
 <p align="center">
-  <img src="./Pictures/Paging3.png" alt="Modeller" width="300"/>
+  <img src="./Pictures/Paging/Paging3.png" alt="Modeller" width="300"/>
 </p>
 
 - XV6 - 64 bits, each PTE consists of  
@@ -79,7 +79,7 @@
     - 10 bits (0 - 9 ) for flags, other information
 
 <p align="center">
-  <img src="./Pictures/Paging4.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging4.png" alt="Modeller" width="500"/>
 </p>
 
 
@@ -93,7 +93,7 @@
 - XV6-SV48
     - 48-bit virtual address
 <p align="center">
-  <img src="./Pictures/Paging5.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging5.png" alt="Modeller" width="500"/>
 </p>
 
 INVERTED PAGE TABLES
@@ -104,7 +104,7 @@ INVERTED PAGE TABLES
 
 PAGE SHARING
 <p align="center">
-  <img src="./Pictures/Paging6.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging6.png" alt="Modeller" width="500"/>
 </p>
 
 - For per-process page table, let two pages point to the same frame
@@ -131,7 +131,7 @@ ADDRESS TRANSLATION
 
 #### MEMORY ACCESSES OF PAGING
 <p align="center">
-  <img src="./Pictures/Paging7.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging7.png" alt="Modeller" width="500"/>
 </p>
 
 
@@ -144,10 +144,10 @@ ADDRESS TRANSLATION
     - TLB hit: Vitual page number (VPN) is in TLB and can be quickly accessed
     - TLF miss: VPN is not in TLB. Access page table to get the translation, update the TLB entry with the translation
 <p align="center">
-  <img src="./Pictures/Paging8.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging8.png" alt="Modeller" width="500"/>
 </p>
 <p align="center">
-  <img src="./Pictures/Paging9.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging9.png" alt="Modeller" width="500"/>
 </p>
 
 - Temporal Locality
@@ -173,7 +173,7 @@ ADDRESS TRANSLATION
     - Process 1: VPN 10 -> PFN 100
     - Process 2: VPN 10 -> PFN 170
 <p align="center">
-  <img src="./Pictures/Paging10.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging10.png" alt="Modeller" width="500"/>
 </p>
 
 - Solution 1: Flush
@@ -184,7 +184,7 @@ ADDRESS TRANSLATION
     - Some hardware systems provide an anddress space identifier (ASID) files in the TLB
     - Think of ASID as a process identifier
 <p align="center">
-  <img src="./Pictures/Paging11.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging11.png" alt="Modeller" width="500"/>
 </p>
 
 
@@ -229,7 +229,7 @@ ADDRESS TRANSLATION
   - Different registers for each segment
 - Instead of one single page table for one process, one table for each logical segment
 <p align="center">
-  <img src="./Pictures/Paging12.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging12.png" alt="Modeller" width="500"/>
 </p>
 
 - Base register to the point to the physical address og the page table.
@@ -238,7 +238,7 @@ ADDRESS TRANSLATION
   - 12-bit for offset
 - 3 segments: code, heap, stack
 <p align="center">
-  <img src="./Pictures/Paging13.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging13.png" alt="Modeller" width="500"/>
 </p>
 
 - Problems: page table waste for sparsely-used heap
@@ -253,7 +253,7 @@ ADDRESS TRANSLATION
   - Page directory to track whether a page of the page table is valid. 
 - If an entry page of page table entries is invalid, no allocation.
 <p align="center">
-  <img src="./Pictures/Paging14.png" alt="Modeller" width="300"/>
+  <img src="./Pictures/Paging/Paging14.png" alt="Modeller" width="300"/>
 </p>
 
 - A virtual address of 32-bit with 4KB page size is divided into
@@ -262,7 +262,7 @@ ADDRESS TRANSLATION
 - A page table  entry is 4 bytes
 - Since the page table is paged, the page number is further divided into 
 <p align="center">
-  <img src="./Pictures/Paging15.png" alt="Modeller" width="300"/>
+  <img src="./Pictures/Paging/Paging15.png" alt="Modeller" width="300"/>
 </p>
 
 - where $p_{1}$ is an index into the page directory, and $p_{2}$ is the page table index
@@ -275,7 +275,7 @@ ADDRESS TRANSLATION
 - Multi-level page directories and each one can fit in a page
 - 30-bit address space, 512-byte page size, 4 byte PTE
 <p align="center">
-  <img src="./Pictures/Paging16.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging16.png" alt="Modeller" width="500"/>
 </p>
 
 #### PAGE SWAPPING
@@ -293,13 +293,13 @@ ADDRESS TRANSLATION
   - Keep unreferenced pages on disk
 - Swapping makes it possible for the total physical address space of all processes to exceed the real physical memory of the system
 <p align="center">
-  <img src="./Pictures/Paging17.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging17.png" alt="Modeller" width="500"/>
 </p>
 
 - Reserve some space on the disk for moving pages back and forth - Swap space
 - OS keeps track of the swap space, in page-sized unit.
 <p align="center">
-  <img src="./Pictures/Paging18.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging18.png" alt="Modeller" width="500"/>
 </p>
 
 > How to know where a page lives?
@@ -307,10 +307,10 @@ ADDRESS TRANSLATION
 > - 1 indicates in-memory
 > - 0 indicated in-disk
 <p align="center">
-  <img src="./Pictures/Paging19.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging19.png" alt="Modeller" width="500"/>
 </p>
 <p align="center">
-  <img src="./Pictures/Paging20.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging20.png" alt="Modeller" width="500"/>
 </p>
 
 
@@ -334,7 +334,7 @@ ADDRESS TRANSLATION
 - Copy the page only if a process writes to it (demand)
   - Process creation **fork() + exec()**
 <p align="center">
-  <img src="./Pictures/Paging21.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging21.png" alt="Modeller" width="500"/>
 </p>
 
 #### PAGE REPLACEMENT 
@@ -354,7 +354,7 @@ ADDRESS TRANSLATION
 - Example
   - $T_{M} = 100 ns, T_{D} = 10 ms$
 <p align="center">
-  <img src="./Pictures/Paging22.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging22.png" alt="Modeller" width="500"/>
 </p>
 
   - $AMAT = 0.9 * 100 + 0.1 * 10,000,000 = 90 ns + 1,000,000 = 1,000,090 ns$
@@ -375,7 +375,7 @@ ADDRESS TRANSLATION
   - Pros: Approximate optimal replacement
   - Cons: Difficult to implement
 <p align="center">
-  <img src="./Pictures/Paging23.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging23.png" alt="Modeller" width="500"/>
 </p>
 
 - Other policies: 
@@ -403,7 +403,7 @@ ADDRESS TRANSLATION
     - 0 evicted
     - 1 set to 0 and move to next
 <p align="center">
-  <img src="./Pictures/Paging24.png" alt="Modeller" width="500"/>
+  <img src="./Pictures/Paging/Paging24.png" alt="Modeller" width="500"/>
 </p>
   
 #### SUMMARY
