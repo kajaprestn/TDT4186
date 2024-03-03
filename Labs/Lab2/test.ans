@@ -1,16 +1,16 @@
-/Users/kajaprestneslind/Desktop/6. semester/TDT4186/VM/lab-l2-handout/./test-lab-l2:13: SyntaxWarning: invalid escape sequence '\['
+/Users/kajaprestneslind/Desktop/6. semester/TDT4186/TDT4186/Labs/Lab2/./test-lab-l2:13: SyntaxWarning: invalid escape sequence '\['
   "\[ \]\tScheduler Name\tScheduler ID",
-/Users/kajaprestneslind/Desktop/6. semester/TDT4186/VM/lab-l2-handout/./test-lab-l2:15: SyntaxWarning: invalid escape sequence '\['
+/Users/kajaprestneslind/Desktop/6. semester/TDT4186/TDT4186/Labs/Lab2/./test-lab-l2:15: SyntaxWarning: invalid escape sequence '\['
   "\[\*\]\tRound Robin\t1",
-/Users/kajaprestneslind/Desktop/6. semester/TDT4186/VM/lab-l2-handout/./test-lab-l2:33: SyntaxWarning: invalid escape sequence '\s'
+/Users/kajaprestneslind/Desktop/6. semester/TDT4186/TDT4186/Labs/Lab2/./test-lab-l2:33: SyntaxWarning: invalid escape sequence '\s'
   "[0-9]+\s+[0-9]+\s+[0-9]+",
-/Users/kajaprestneslind/Desktop/6. semester/TDT4186/VM/lab-l2-handout/./test-lab-l2:46: SyntaxWarning: invalid escape sequence '\s'
+/Users/kajaprestneslind/Desktop/6. semester/TDT4186/TDT4186/Labs/Lab2/./test-lab-l2:46: SyntaxWarning: invalid escape sequence '\s'
   "[0-9]+\s+[0-9]+\s+[0-9]+",
-/Users/kajaprestneslind/Desktop/6. semester/TDT4186/VM/lab-l2-handout/./test-lab-l2:56: SyntaxWarning: invalid escape sequence '\['
+/Users/kajaprestneslind/Desktop/6. semester/TDT4186/TDT4186/Labs/Lab2/./test-lab-l2:56: SyntaxWarning: invalid escape sequence '\['
   "\[ \]\tScheduler Name\tScheduler ID",
-/Users/kajaprestneslind/Desktop/6. semester/TDT4186/VM/lab-l2-handout/./test-lab-l2:58: SyntaxWarning: invalid escape sequence '\['
+/Users/kajaprestneslind/Desktop/6. semester/TDT4186/TDT4186/Labs/Lab2/./test-lab-l2:58: SyntaxWarning: invalid escape sequence '\['
   "\[\*\]\tRound Robin\t1",
-/Users/kajaprestneslind/Desktop/6. semester/TDT4186/VM/lab-l2-handout/./test-lab-l2:72: SyntaxWarning: invalid escape sequence '\s'
+/Users/kajaprestneslind/Desktop/6. semester/TDT4186/TDT4186/Labs/Lab2/./test-lab-l2:72: SyntaxWarning: invalid escape sequence '\s'
   "[0-9]+\s+[0-9]+\s+[0-9]+",
 riscv64-unknown-elf-gcc    -c -o kernel/entry.o kernel/entry.S
 riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -gdwarf-2 -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o kernel/start.o kernel/start.c
@@ -50,7 +50,7 @@ riscv64-unknown-elf-objdump -S kernel/kernel > kernel/kernel.asm
 riscv64-unknown-elf-objdump -t kernel/kernel | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > kernel/kernel.sym
 == Test [MANDATORY] schedls reports two schedulers == 
 $ make qemu-gdb
-[MANDATORY] schedls reports two schedulers: [32mOK[0m (3.1s) 
+[MANDATORY] schedls reports two schedulers: [32mOK[0m (2.7s) 
 == Test [MANDATORY] schedset changes scheduler == 
 $ make qemu-gdb
 [MANDATORY] schedset changes scheduler: [32mOK[0m (0.8s) 
@@ -59,7 +59,7 @@ $ make qemu-gdb
 [MANDATORY] complete benchmark after scheduler switch: [32mOK[0m (2.8s) 
 == Test [MANDATORY] time benchmark complete after scheduler switch == 
 $ make qemu-gdb
-[MANDATORY] time benchmark complete after scheduler switch: [32mOK[0m (2.6s) 
+[MANDATORY] time benchmark complete after scheduler switch: [32mOK[0m (2.2s) 
 == Test [OPTIONAL] optimized scheduler added == 
 $ make qemu-gdb
 (0.3s) 
@@ -73,20 +73,20 @@ $ make qemu-gdb
          
          *: current scheduler
          
-         $ qemu-system-riscv64: terminating on signal 15 from pid 26430 (<unknown process>)
+         $ qemu-system-riscv64: terminating on signal 15 from pid 41790 (<unknown process>)
     [31mMISSING[0m '   	[a-zA-Z0-9_ ]+	3'
     QEMU output saved to xv6.out.
 == Test [OPTIONAL] optimized scheduler runs benchmark with time == 
 $ make qemu-gdb
-(2.5s) 
+(2.9s) 
     ...
          Scheduler unchanged: ID out of range
          $ time sh load.sh
-    [32mGOOD[0m 26 79 379 
+    [32mGOOD[0m 17 52 243 
     [32mGOOD[0m Executing sh took 21 ticks
          $ echo OK
     [32mGOOD[0m OK
-         $ qemu-system-riscv64: terminating on signal 15 from pid 26453 (<unknown process>)
+         $ qemu-system-riscv64: terminating on signal 15 from pid 41813 (<unknown process>)
     [31mMISSING[0m '^Scheduler successfully changed to [a-zA-Z0-9_ ]+$'
     QEMU output saved to xv6.out.
 Passed 4 out of 4 tests
