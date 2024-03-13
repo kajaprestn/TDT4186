@@ -101,6 +101,7 @@ extern uint64 sys_ps(void);
 extern uint64 sys_schedls(void);
 extern uint64 sys_schedset(void);
 extern uint64 sys_va2pa(void);
+
 extern uint64 sys_pfreepages(void);
 
 // An array mapping syscall numbers from syscall.h

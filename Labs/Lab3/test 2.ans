@@ -116,22 +116,22 @@ riscv64-unknown-elf-objdump -S kernel/kernel > kernel/kernel.asm
 riscv64-unknown-elf-objdump -t kernel/kernel | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > kernel/kernel.sym
 == Test [MANDATORY] vatopa exists == 
 $ make qemu-gdb
-[MANDATORY] vatopa exists: [32mOK[0m (2.8s) 
+[MANDATORY] vatopa exists: [32mOK[0m (3.6s) 
 == Test [MANDATORY] vatopa 0 == 
 $ make qemu-gdb
-[MANDATORY] vatopa 0: [32mOK[0m (0.9s) 
+[MANDATORY] vatopa 0: [32mOK[0m (0.7s) 
 == Test [MANDATORY] vatopa 0 1 matches == 
 $ make qemu-gdb
 [32m			Matching OK[0m
-[MANDATORY] vatopa 0 1 matches: [32mOK[0m (0.9s) 
+[MANDATORY] vatopa 0 1 matches: [32mOK[0m (1.0s) 
 == Test [MANDATORY] cowtest no crash == 
 $ make qemu-gdb
-Timeout! [MANDATORY] cowtest no crash: [31mFAIL[0m (30.8s) 
+Timeout! [MANDATORY] cowtest no crash: [31mFAIL[0m (30.9s) 
     ...
          [prnt] v1 --> 16147
          kernel/kalloc.c@kalloc:79
     [31mBAD [0m panic: assert failed
-         qemu-system-riscv64: terminating on signal 15 from pid 71617 (<unknown process>)
+         qemu-system-riscv64: terminating on signal 15 from pid 67472 (<unknown process>)
     unexpected lines in output
     QEMU output saved to xv6.out.
 == Test [MANDATORY] cowtest 1 match addresses == 
@@ -145,7 +145,7 @@ Timeout! [MANDATORY] cowtest 1 match addresses: [31mFAIL[0m (30.1s)
          [prnt] v1 --> 16147
          kernel/kalloc.c@kalloc:79
          panic: assert failed
-         qemu-system-riscv64: terminating on signal 15 from pid 72208 (<unknown process>)
+         qemu-system-riscv64: terminating on signal 15 from pid 68064 (<unknown process>)
     [31mMISSING[0m '^\[prnt\] v4 --> (\d+)$'
     QEMU output saved to xv6.out.
 == Test [MANDATORY] cowtest 2 match addresses == 
@@ -159,7 +159,7 @@ Timeout! [MANDATORY] cowtest 2 match addresses: [31mFAIL[0m (30.1s)
          [prnt] v1 --> 16147
          kernel/kalloc.c@kalloc:79
          panic: assert failed
-         qemu-system-riscv64: terminating on signal 15 from pid 72757 (<unknown process>)
+         qemu-system-riscv64: terminating on signal 15 from pid 68623 (<unknown process>)
     [31mMISSING[0m '^\[prnt\] v5 --> (\d+)$'
     QEMU output saved to xv6.out.
 == Test [MANDATORY] cowtest 3 match addresses == 
@@ -173,21 +173,7 @@ Timeout! [MANDATORY] cowtest 3 match addresses: [31mFAIL[0m (30.1s)
          [prnt] v1 --> 16147
          kernel/kalloc.c@kalloc:79
          panic: assert failed
-         qemu-system-riscv64: terminating on signal 15 from pid 73340 (<unknown process>)
+         qemu-system-riscv64: terminating on signal 15 from pid 69213 (<unknown process>)
     [31mMISSING[0m '^\[prnt\] v6 --> (\d+)$'
     QEMU output saved to xv6.out.
 == Test [MANDATORY] cowtest 4 match addresses == 
-$ make qemu-gdb
-Timeout! [MANDATORY] cowtest 4 match addresses: [31mFAIL[0m (30.1s) 
-    [32mGOOD[0m *** Now run 'gdb' in another window.
-         
-         xv6 kernel is booting
-    ...
-         ----- Test case 4 -----
-         [prnt] v1 --> 16147
-         kernel/kalloc.c@kalloc:79
-         panic: assert failed
-         qemu-system-riscv64: terminating on signal 15 from pid 73890 (<unknown process>)
-    [31mMISSING[0m '^\[prnt\] v7 --> (\d+)$'
-    QEMU output saved to xv6.out.
-Passed 3 out of 8 tests

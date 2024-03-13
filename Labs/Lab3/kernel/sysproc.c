@@ -5,6 +5,7 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "stddef.h"
 
 extern uint64 FREE_PAGES; // kalloc.c keeps track of those
 
@@ -117,11 +118,38 @@ uint64 sys_schedset(void)
     return 0;
 }
 
-uint64 sys_va2pa(void)
-{
-    printf("TODO: IMPLEMENT ME [%s@%s (line %d)]", __func__, __FILE__, __LINE__);
-    return 0;
+uint64 sys_va2pa(void) {
+    uint64 vaddr;
+    int pid;
+
+    argaddr(0, &vaddr);
+    argint(1, &pid);
+    
+    if(pid <= 0) {
+        pid = myproc()->pid;
+    }
+
+    struct proc* p;
+    extern struct proc proc[];
+
+    for(p = proc; p < &proc[NPROC]; p++){
+        if(p->pid == pid){
+            break;
+        }
+    }
+
+    if(p == &proc[NPROC] || p == NULL) {
+        return -2; 
+    }
+
+    uint64 paddr = walkaddr(p->pagetable, vaddr);
+    if(paddr == 0) {
+        return -3; 
+    }
+
+    return paddr;
 }
+
 
 uint64 sys_pfreepages(void)
 {
