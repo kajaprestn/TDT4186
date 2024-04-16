@@ -65,6 +65,54 @@ usertrap(void)
     intr_on();
 
     syscall();
+  } else if (r_scause() == 15) {
+    uint va = r_stval();
+    struct proc *p = myproc();
+    pte_t *pte = walk(p->pagetable, va, 0);
+    uint64 pa;
+    char *mem;
+
+    // Make sure the virtual address is within process memory
+    if (va >= p->sz) {
+      printf("handle_page_fault: Segmentation fault\n");
+      setkilled(p);
+    }
+
+    // Ensure valid PTE
+    if (!pte) {
+      printf("handle_page_fault: pte == 0\n");
+      setkilled(p);
+    }
+
+    // Check whether page is shared using bitwise comparisons with PTE flags
+    if ((*pte & PTE_COW) == 0 || (*pte & PTE_V) == 0 || (*pte & PTE_U)==0) {
+      printf("handle_page_fault: cow not set\n");
+      setkilled(p);
+    }
+
+    // Copy the old page to the new page
+    pa = PTE2PA(*pte);
+
+    // Allocate a new page
+    if ((mem = kalloc()) == 0) {
+      printf("handle_page_fault: kalloc failed\n");
+      setkilled(p);
+    }
+
+    memmove(mem, (char *)pa, PGSIZE);
+
+    uvmunmap(p->pagetable, PGROUNDDOWN(va), 1, 0);
+
+    // Make a new page with writing permissions
+    if (mappages(p->pagetable, PGROUNDDOWN(va), PGSIZE, (uint64)mem, PTE_FLAGS(*pte) | PTE_W | PTE_X | PTE_R | PTE_U) != 0) {
+      printf("handle_page_fault: mappages failed\n");
+      kfree(mem);
+      setkilled(p);
+    }
+
+    // Free memory (kfree checks ref_counter before actually freeing the memory)
+    kfree((void*)pa);
+
   } else if((which_dev = devintr()) != 0){
     // ok
   } else {

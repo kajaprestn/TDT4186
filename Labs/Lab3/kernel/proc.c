@@ -835,4 +835,5 @@ void schedset(int id)
     }
     sched_pointer = available_schedulers[id].impl;
     printf("Scheduler successfully changed to %s\n", available_schedulers[id].name);
+    printf(" to %s\n", available_schedulers[id].name);
 }

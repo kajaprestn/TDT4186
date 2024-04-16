@@ -11,6 +11,7 @@
 
 uint64 MAX_PAGES = 0;
 uint64 FREE_PAGES = 0;
+int ref_count[PHYSTOP/PGSIZE];  // External reference counter for pages
 
 void freerange(void *pa_start, void *pa_end);
 
@@ -51,23 +52,27 @@ void freerange(void *pa_start, void *pa_end)
 // initializing the allocator; see kinit above.)
 void kfree(void *pa)
 {
-    if (MAX_PAGES != 0) // On kinit MAX_PAGES is not yet set
+    if (MAX_PAGES != 0)
         assert(FREE_PAGES < MAX_PAGES);
-    struct run *r;
 
     if (((uint64)pa % PGSIZE) != 0 || (char *)pa < end || (uint64)pa >= PHYSTOP)
         panic("kfree");
 
-    // Fill with junk to catch dangling refs.
-    memset(pa, 1, PGSIZE);
+    if (ref_count[(uint64)pa/PGSIZE] > 0)
+        ref_count[(uint64)pa/PGSIZE]--;
 
-    r = (struct run *)pa;
+    if(ref_count[(uint64)pa/PGSIZE] == 0){
+      // Fill with junk to catch dangling refs.
+      memset(pa, 1, PGSIZE);
 
-    acquire(&kmem.lock);
-    r->next = kmem.freelist;
-    kmem.freelist = r;
-    FREE_PAGES++;
-    release(&kmem.lock);
+      struct run *r = (struct run *) (pa);
+
+      acquire(&kmem.lock);
+      r->next = kmem.freelist;
+      kmem.freelist = r;
+      FREE_PAGES++;
+      release(&kmem.lock);
+    } 
 }
 
 // Allocate one 4096-byte page of physical memory.
@@ -85,8 +90,11 @@ kalloc(void)
         kmem.freelist = r->next;
     release(&kmem.lock);
 
-    if (r)
+    if (r) {
         memset((char *)r, 5, PGSIZE); // fill with junk
-    FREE_PAGES--;
+        ref_count[(uint64)r/PGSIZE]++;
+        FREE_PAGES--;
+    }
+
     return (void *)r;
 }

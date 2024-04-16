@@ -10,6 +10,10 @@ struct sleeplock;
 struct stat;
 struct superblock;
 
+#include "memlayout.h"
+
+extern int ref_count[PHYSTOP / PGSIZE]; // External reference counter for pages (kalloc.c)
+
 #define assert(cond)                                        \
     if (!(cond))                                            \
     {                                                       \
