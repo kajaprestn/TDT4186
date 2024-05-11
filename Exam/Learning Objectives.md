@@ -178,6 +178,7 @@ int main() {
 
 
 - **What are virtual address and physical address?**
+
     Virtual addresses and physical addresses are two different ways of referring to memory locations in computer systems, A virtual address is used by programs running on an OS to access memory, and these addresses are part of a process's address space. Each process sees its own private virtual address space, provided by the OS, which allows the program to operate as ifit has access to a continuous and private memory block. 
 
     Physical addresses, on the other hand, refer to the actual addresses on the machine's physical memory (RAM). The OS, with the help of the MMU, translates these virtual addresses into physical addresses. This translation is necessary because it allows the OS to use techniques such as paging and swapping to manage memory more efficiently, provide memory protection, and enable processes to use more memory than is physically available on the system.
