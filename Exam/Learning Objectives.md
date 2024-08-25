@@ -95,7 +95,7 @@ int main() {
   
   Operating systems generally operate in two modes to enhance security and stability: **user mode** and **kernel mode**. These modes define the level of access that running processes have to hardware and memory resources. 
   
-  - *User mode*: In user mode, the code being executed has restricted access to hardware resources and cannot directly execute any CPU instruction that could potentially harm the system's stability og security. This mode limimts processes to a subset of the CPU's instructrion set, preventing them from performing operations that could disrupt system operations or other processes. User mde protects the integrity of the OS by preventing user applications from directly accessing critical system resources and hardware
+  - *User mode*: In user mode, the code being executed has restricted access to hardware resources and cannot directly execute any CPU instruction that could potentially harm the system's stability and security. This mode limimts processes to a subset of the CPU's instructrion set, preventing them from performing operations that could disrupt system operations or other processes. User mde protects the integrity of the OS by preventing user applications from directly accessing critical system resources and hardware
   - *Kernel mode*: Kernel mode provides unrestricted access to the hardware. The code running in this mode can execute any CPU instruction and reference any memory address. Kernel mode is designed for trused functions of the OS like managing memory, running hardware, and handling interrupts. Kernel mode is necessary because certain operations required to manage hardware and resources cannot be performed safely in user mode. It allows the operating system to execute critical tasks that require higher privileges which would be dangerous if exposed to user applications. 
 
   An OS need the two modes because of:
@@ -178,6 +178,7 @@ int main() {
 
 
 - **What are virtual address and physical address?**
+
     Virtual addresses and physical addresses are two different ways of referring to memory locations in computer systems, A virtual address is used by programs running on an OS to access memory, and these addresses are part of a process's address space. Each process sees its own private virtual address space, provided by the OS, which allows the program to operate as ifit has access to a continuous and private memory block. 
 
     Physical addresses, on the other hand, refer to the actual addresses on the machine's physical memory (RAM). The OS, with the help of the MMU, translates these virtual addresses into physical addresses. This translation is necessary because it allows the OS to use techniques such as paging and swapping to manage memory more efficiently, provide memory protection, and enable processes to use more memory than is physically available on the system.
